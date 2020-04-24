@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node .",
+    "index": "node .",
+    "aula-01": "node aula-01.js",
+    "aula-02": "node aula-02.js",
+    "aula-03": "node aula-03.js",
+    "aula-04": "node aula-04.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
