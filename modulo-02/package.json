@@ -6,6 +6,11 @@
   "scripts": {
     "index": "node .",
     "aula-01": "node aula-01/index.js",
+    "aula-02": "node aula-02/index.js",
+    "aula-03": "node aula-03/.",
+    "aula-04": "node aula-04/.",
+    "aula-05": "node aula-05/.",
+    "aula-06": "node aula-06/.",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
