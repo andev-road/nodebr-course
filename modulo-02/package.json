@@ -1,0 +1,24 @@
+{
+  "name": "modulo-02",
+  "version": "1.0.0",
+  "description": "curso imersao node-js por erick wendel modulo 02",
+  "main": "index.js",
+  "scripts": {
+    "index": "node .",
+    "aula-01": "node aula-01/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andev-road/nodebr-course.git"
+  },
+  "author": "André Treib",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andev-road/nodebr-course/issues"
+  },
+  "homepage": "https://github.com/andev-road/nodebr-course#readme",
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
+}
