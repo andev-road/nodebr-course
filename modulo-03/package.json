@@ -1,0 +1,27 @@
+{
+  "name": "modulo-03",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test-aula-01": "mocha ./aula-01/test.js",
+    "test-aula-02": "mocha ./aula-02/."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andev-road/nodebr-course.git"
+  },
+  "author": "André Treib",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andev-road/nodebr-course/issues"
+  },
+  "homepage": "https://github.com/andev-road/nodebr-course#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "nock": "^12.0.3"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.2"
+  }
+}
