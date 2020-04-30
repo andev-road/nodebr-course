@@ -5,7 +5,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "node ./src/.",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "example-psql": "node ./src/db/examples/postgres.js",
+    "test": "mocha ./src/tests/*.test.js",
+    "test:watch": "mocha ./src/tests/*.test.js -w",
+    "test-psql": "mocha ./src/tests/postgresStrategy.test.js",
+    "test-psql:watch": "mocha ./src/tests/postgresStrategy.test.js -w",
+    "test-mongo": "mocha ./src/tests/mongodbStrategy.test.js",
+    "test-mongo:watch": "mocha ./src/tests/mongodbStrategy.test.js -w"
   },
   "repository": {
     "type": "git",
@@ -16,5 +22,13 @@
   "bugs": {
     "url": "https://github.com/andev-road/nodebr-course/issues"
   },
-  "homepage": "https://github.com/andev-road/nodebr-course#readme"
+  "homepage": "https://github.com/andev-road/nodebr-course#readme",
+  "dependencies": {
+    "pg": "^8.0.3",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.7"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.2"
+  }
 }

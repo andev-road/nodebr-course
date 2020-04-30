@@ -8,6 +8,8 @@
 * If the --name doesnt exists in the local machine, docker will go to docker hub and will download the image
 * On the parameter "-p", we set "internal:external" port
 * To list all the running containers, use: `docker ps`
+* To list ALL THE CONTAINERS, use: `docker ps -a`
+* If you exited and need to rerun a container, just: `docker start {name}`
 * To access the container, use: `docker exec -it postgres /bin/bash`
 
 - 2nd step: download and run postgres
@@ -65,3 +67,11 @@ docker exec -it mongodb \
 - db/strategies/base: our context (the common part between our strategies)
 - db/strategies: our strategies (in our example: mongodb and psql)
 - db/strategies/interfaces: our interfaces (our goals, like a crud interface)
+
+* How do we connect to postgres using the nodejs?
+- ORM: "SEQUELIZE" (npm i sequelize)
+- Driver: "pg-hstore" e "ph" (npm i pg-hstore pg)
+
+* How do we use TDD with our strategies?
+- Mocha and assert
+- So, run: `npm i --save-dev mocha`
