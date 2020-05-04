@@ -13,7 +13,7 @@
 * To access the container, use: `docker exec -it postgres /bin/bash`
 
 - 2nd step: download and run postgres
-```
+```shell
 docker run \
     --name postgres \
     -e POSTGRES_USER=root \
@@ -25,7 +25,7 @@ docker run \
 ```
 
 - 3rd step: download and run adminer
-```
+```shell
 docker run \
     --name adminer \
     -p 8080:8080 \
@@ -35,7 +35,7 @@ docker run \
 ```
 
 - 4th step: download and run mongodb
-```
+```shell
 docker run \
     --name mongodb \
     -p 27017:27017 \
@@ -46,7 +46,7 @@ docker run \
 ```
 
 - 5th step: download and run an IDE to use mongodb
-```
+```shell
 docker run \
     --name mongoclient \
     -p 3000:3000 \
@@ -56,10 +56,15 @@ docker run \
 ```
 
 - 6th step: create our application database and the user with only read/write rights 
-```
+```shell
 docker exec -it mongodb \
     mongo --host localhost -u admin -p admin --authenticationDatabase admin \
     --eval "db.getSiblingDB('heroes').createUser({ user: 'root', pwd: '123456', roles: [{role: 'readWrite', db: 'heroes'}]})"
+```
+
+- 7th step: acess the docker with mongodb
+```shell
+docker exec -it {mongodb_id} mongo -u root -p 123456 --authenticationDatabase heroes
 ```
 
 * Our design pattern: STRATEGY
@@ -75,3 +80,18 @@ docker exec -it mongodb \
 * How do we use TDD with our strategies?
 - Mocha and assert
 - So, run: `npm i --save-dev mocha`
+
+* Tips with MongoDB
+- `show dbs`: show our databases
+- `use {database_name}`: change the database
+- `show collections`: show our collections
+- `db.{collection_name}.insert( {} )`: create a new object into our collection
+- `db.{collection_name}.find()`: select all
+- `db.{collection_name}.find().pretty()`: better view to the find command
+- `db.{collection_name}.findOne()`: select all
+- `db.{collection_name}.count()`: count all
+- `db.{collection_name}.find().limit( {quantity} )`: select all with limit X
+- `db.{collection_name}.find().sort({ {parameter}: (1/-1) })`: select all order by asc (true) or desc (false)
+- `db.{collection_name}.update({ _id: {object_id} }, {item} )`: update the _id with {object_id} with the {item} sent
+- `db.{collection_name}.remove( {query} )`: remove all registers of the query from the database
+- we can use JS into our mongodb
