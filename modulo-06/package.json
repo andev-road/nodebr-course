@@ -1,0 +1,34 @@
+{
+  "name": "modulo-06",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node ./src/.",
+    "test": "mocha ./src/tests/*.test.js",
+    "test:watch": "mocha ./src/tests/*.test.js -w",
+    "test-psql": "mocha ./src/tests/postgresStrategy.test.js",
+    "test-psql:watch": "mocha ./src/tests/postgresStrategy.test.js -w",
+    "test-mongo": "mocha ./src/tests/mongodbStrategy.test.js",
+    "test-mongo:watch": "mocha ./src/tests/mongodbStrategy.test.js -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andev-road/nodebr-course.git"
+  },
+  "author": "André Treib",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andev-road/nodebr-course/issues"
+  },
+  "homepage": "https://github.com/andev-road/nodebr-course#readme",
+  "dependencies": {
+    "mongoose": "^5.9.12",
+    "pg": "^8.0.3",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.7"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.2"
+  }
+}
