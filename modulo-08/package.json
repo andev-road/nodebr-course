@@ -1,0 +1,41 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "rest api with hapijs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node ./src/.",
+    "test": "mocha ./src/tests/*.test.js",
+    "test:api": "mocha ./src/tests/api.test.js",
+    "test:psql": "mocha ./src/tests/postgresStrategy.test.js",
+    "test:mongo": "mocha ./src/tests/mongodbStrategy.test.js"
+  },
+  "keywords": [
+    "rest",
+    "api",
+    "hapijs",
+    "nodejs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andev-road/nodebr-course.git"
+  },
+  "author": "André Treib",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andev-road/nodebr-course/issues"
+  },
+  "homepage": "https://github.com/andev-road/nodebr-course#readme",
+  "dependencies": {
+    "boom": "^7.3.0",
+    "hapi": "^18.1.0",
+    "joi": "^14.3.1",
+    "mongoose": "^5.9.12",
+    "pg": "^8.0.3",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.7"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.2"
+  }
+}
