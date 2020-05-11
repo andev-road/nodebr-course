@@ -9,6 +9,7 @@ const Inert = require('inert');
 const Context = require('./db/strategies/base/contextStrategy');
 const PSQL = require('./db/strategies/postgres/postgres');
 const HeroSchema = require('./db/strategies/postgres/schemas/heroes.schema');
+const UserSchema = require('./db/strategies/postgres/schemas/users.schema');
 
 // imports - jwt
 const HapiJwt = require('hapi-auth-jwt2');
@@ -33,10 +34,16 @@ function mapRoutes(instance, methods) {
 // api core
 async function main() {
 
-    // starting our context of psql db 
+    // starting psql connection
     const psqlConnection = await PSQL.connect();
+
+    // starting our context of table heroes in psql db 
     const psqlHeroModel = await PSQL._defineModel(psqlConnection, HeroSchema);
     const psqlContext = new Context(new PSQL(psqlConnection, psqlHeroModel));
+
+    // starting out context of table users in psql db
+    const psqlUsersModel = await PSQL._defineModel(psqlConnection, UserSchema);
+    const userContext = new Context(new PSQL(psqlConnection, psqlUsersModel));
 
     // initializing swagger
     const swaggerOptions = {
@@ -62,9 +69,17 @@ async function main() {
         /*options: {
             expiresIn: 20 // seconds
         },*/
-        validate: (payload, request) => {
+        validate: async (payload, request) => {
+            // console.log("payload: ", payload);
             // get the payload of the jwt and do whatever you need
             //      (eg. look if id still active in database, etc...)
+            const [user] = await userContext.read({
+                username: payload.username,
+                password: payload.password
+            });
+            if (!user)
+                return { isValid: false };
+            
             
             return {
                 isValid: true
@@ -76,7 +91,7 @@ async function main() {
     // creating our routes
     app.route([
         ...mapRoutes(new HeroRoute(psqlContext), HeroRoute.methods()),
-        ...mapRoutes(new AuthRoute(JWT_SECRET), AuthRoute.methods())
+        ...mapRoutes(new AuthRoute(JWT_SECRET, userContext), AuthRoute.methods())
     ]);
 
     // starting our api

@@ -1,10 +1,13 @@
 const assert = require('assert');
+const PasswordHelper = require('./../helpers/password.helper');
 const PSQL = require('./../db/strategies/postgres/postgres');
 const Context = require('./../db/strategies/base/contextStrategy');
-const heroSchema = require('./../db/strategies/postgres/schemas/heroes.schema')
+const heroSchema = require('./../db/strategies/postgres/schemas/heroes.schema');
+const userSchema = require('./../db/strategies/postgres/schemas/users.schema');
 
-// const context = new Context(new PSQL());
+// our test context
 let context = {};
+let tbUsersContext = {};
 
 // creating our mock to insert, select and remove
 const MOCK_HERO_CREATE = {
@@ -18,6 +21,12 @@ const MOCK_HERO_UPDATE = {
     power: 'ex-wear underwear'
 };
 
+// creating our mock to login (tb_users at postgres)
+const MOCK_LOGIN_USER = {
+    username: 'mock_user',
+    password: '123456'
+};
+
 // cant use () => { } (arrow function) here because of the "this.{func}"
 // arrow functions use lexical binding to the "this" parameter
 // and it cant access the mocha context
@@ -26,8 +35,12 @@ describe('Postgres strategy', async function () {
 
     before(async () => {
         const connection = await PSQL.connect();
+        
         const model = await PSQL._defineModel(connection, heroSchema);
         context = new Context(new PSQL(connection, model));
+
+        const userModel = await (PSQL._defineModel(connection, userSchema));
+        tbUsersContext = new Context(new PSQL(connection, userModel));
     });
 
     it('should connect to postgres', async () => {
@@ -73,6 +86,34 @@ describe('Postgres strategy', async function () {
     it('should delete one hero by id from postgres', async () => {
         const [item] = await context.read({ name: MOCK_HERO_UPDATE.name });
         const expected = await context.delete(item.id);
+        assert.deepEqual(expected, 1);
+    });
+
+    it("should insert a new login to postgres", async () => {
+        let hashedPass = await PasswordHelper.hashValue(MOCK_LOGIN_USER.password);
+        const { username } = await tbUsersContext.create({
+            username: MOCK_LOGIN_USER.username,
+            password: hashedPass
+        });
+        assert.deepEqual(MOCK_LOGIN_USER.username, username);
+    });
+
+    it("should get login from postgres", async () => {
+        // const hashedPass = await PasswordHelper.hashValue(MOCK_LOGIN_USER.password);
+        const [user] = await tbUsersContext.read({ 
+            username: MOCK_LOGIN_USER.username
+            // ,password: hashedPass
+        });
+        const passwordCorrect = await PasswordHelper.compareValue(
+            MOCK_LOGIN_USER.password,
+            user.password
+        );
+        assert.ok(passwordCorrect);
+    });
+
+    it('should delete our login user mock from postgres', async () => {
+        const [item] = await tbUsersContext.read({ username: MOCK_LOGIN_USER.username });
+        const expected = await tbUsersContext.delete(item.id);
         assert.deepEqual(expected, 1);
     });
 

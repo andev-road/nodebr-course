@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "node ./src/.",
+    "api": "node ./src/.",
     "test": "mocha ./src/tests/*.test.js",
     "test:api": "mocha ./src/tests/api.test.js",
     "test:psql": "mocha ./src/tests/postgresStrategy.test.js",
     "test:mongo": "mocha ./src/tests/mongodbStrategy.test.js",
-    "test:auth": "mocha ./src/tests/auth.test.js"
+    "test:auth": "mocha ./src/tests/auth.test.js",
+    "test:helpers": "mocha ./src/tests/helpers.test.js"
   },
   "keywords": [
     "rest",
@@ -28,6 +30,7 @@
   },
   "homepage": "https://github.com/andev-road/nodebr-course#readme",
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "boom": "^7.3.0",
     "hapi": "^18.1.0",
     "hapi-auth-jwt2": "^10.1.0",

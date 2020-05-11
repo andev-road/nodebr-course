@@ -19,7 +19,7 @@ const MOCK_HERO_UPDATE = {
 const MOCK_HERO_UPDATE_NAME = { name: 'ex-god' };
 
 // jwt mock
-const JWT_MOCK = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiIxMjMiLCJpZCI6MSwiaWF0IjoxNTg5MTU4MDE4fQ.rmGM-9btaLgJQgMHdlxDnd2xcQ0zP4lW7UBXtr0uX-0";
+const JWT_MOCK = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcsInVzZXJuYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiQyYiQwNCQxRnZqOFRYb2w3S0Y4ei5yZzJ0SS5lWWFIWlVoSWpsSnNwYjQ0U3FqSnZ0Ty90UFI1aFlSSyIsImlhdCI6MTU4OTE2NTA3Nn0.DU1Eeihv4HBGGJfVkMYqH1pppjpQAHTHUDX7H9GJU2o";
 
 // request headers mock
 const headers = {

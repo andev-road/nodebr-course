@@ -125,6 +125,19 @@ class PSQL extends ICrud {
             throw new Error("id is a required parameter");
         }
     }
+
+    async login(item) {
+        try {
+            const { username, password } = item;
+            const [result] = await this._schema.findAll({ raw: true, where: { 
+                username,
+                password 
+            }});
+            return result;
+        } catch (err) {
+            throw new Error("insert the required parameters");
+        }
+    }
 }
 
 module.exports = PSQL;

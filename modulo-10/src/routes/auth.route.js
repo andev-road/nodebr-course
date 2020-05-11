@@ -2,6 +2,7 @@ const Joi = require('joi');
 const Boom = require('boom');
 const Jwt = require('jsonwebtoken');
 
+const PasswordHelper = require('./../helpers/password.helper');
 const BaseRoute = require('./base/base.route');
 
 const failAction = (request, header, error) => {
@@ -10,9 +11,10 @@ const failAction = (request, header, error) => {
 
 class AuthRoute extends BaseRoute {
 
-    constructor(secret) {
+    constructor(secret, database) {
         super();
         this.secret = secret;
+        this.database = database;
     }
 
     login() {
@@ -26,24 +28,27 @@ class AuthRoute extends BaseRoute {
                 validate: {
                     failAction,
                     payload: {
-                        username: Joi.string().min(2).max(100),
-                        password: Joi.string().min(3)
+                        username: Joi.string().min(2).max(100).required(),
+                        password: Joi.string().min(3).required()
                     }
                 }
             },
             handler: async (request) => {
                 try {
                     const { username, password } = request.payload;
-                    if (username.toLowerCase() !== "admin" || password.toLowerCase() !== "123") 
-                        return Boom.unauthorized("login or password incorrect");
-                        
-                    const fakeUserObject = {
-                        username,
-                        password,
-                        id: 1
-                    };
 
-                    const jwt = Jwt.sign(fakeUserObject, this.secret);
+                    // check username
+                    const [user] = await this.database.read({username});
+                    if (!user)
+                        return Boom.unauthorized("Username does not exist");
+                    
+                    // check password
+                    const isPassOk = await PasswordHelper.compareValue(password, user.password);
+                    if (!isPassOk)
+                        return Boom.unauthorized("Password incorrect");
+
+                    // generate jwt
+                    const jwt = Jwt.sign(user, this.secret);
                     return {
                         token: jwt
                     };

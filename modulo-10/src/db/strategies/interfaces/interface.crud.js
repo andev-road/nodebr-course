@@ -25,6 +25,10 @@ class ICrud {
         throw new NotImplementedException();
     }
 
+    login(item) {
+        throw new NotImplementedException();
+    }
+
     isConnected() {
         throw new NotImplementedException();
     }
