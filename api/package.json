@@ -4,8 +4,11 @@
   "description": "rest api to my tracker app - final project",
   "main": "index.js",
   "scripts": {
+    "dev": "node ./src/.",
+    "api": "node ./src/.",
     "test": "mocha ./test/*.test.js",
-    "test:db:vehicle": "mocha ./test/mariadb.vehicle.ts.js"
+    "test:db:vehicle": "mocha ./test/mariadb.vehicle.test.js",
+    "test:api:vehicle": "mocha ./test/api.vehicle.test.js"
   },
   "keywords": [
     "rest",
@@ -25,6 +28,9 @@
     "mocha": "^7.1.2"
   },
   "dependencies": {
+    "boom": "^7.3.0",
+    "hapi": "^18.1.0",
+    "joi": "^14.3.1",
     "mariadb": "^2.3.1",
     "sequelize": "^5.21.8"
   }
