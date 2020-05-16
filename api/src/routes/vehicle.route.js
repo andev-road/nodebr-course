@@ -28,7 +28,6 @@ class VehicleRoute extends BaseRoute {
             },
             handler: async (request) => {
                 try {
-                    const teste = teste.api;
                     return await this._database.create(request.payload);
                 } catch (err) {
                     console.log('POST /vehicles error: ', err);
@@ -36,6 +35,74 @@ class VehicleRoute extends BaseRoute {
                 }
             }
         };
+    }
+
+    report() {
+        return {
+            path: '/vehicles',
+            method: 'GET',
+            config: {
+                validate: {
+                    failAction,
+                    query: {
+                        id: Joi.number().min(0),
+                        plate: Joi.string().min(3).max(10),
+                        seats_total: Joi.number(),
+                        page: Joi.number().min(1),
+                        itemsPerPage: Joi.number().min(1)
+                    }
+                }
+            },
+            handler: async (request) => {
+                try {
+                    const { 
+                        id, 
+                        plate, 
+                        seats_total,
+                        page,
+                        itemsPerPage
+                    } = request.query;
+
+                    let query = null;
+                    if (id) query = {...query, id};
+                    if (plate) query = {...query, plate};
+                    if (seats_total) query = {...query, seats_total};
+
+                    return await this._database.report(
+                        query, 
+                        page, 
+                        itemsPerPage
+                    );
+                } catch (err) {
+                    console.log('GET /vehicles error: ', err);
+                    return Boom.internal();
+                }
+            }
+        }
+    }
+
+    get() {
+        return {
+            path: '/vehicles/{id}',
+            method: 'GET',
+            config: {
+                validate: {
+                    failAction,
+                    params: {
+                        id: Joi.number().required().min(0)
+                    }
+                },
+            },
+            handler: async (request) => {
+                try {
+                    const { id } = request.params;
+                    return await this._database.get({ id: id });
+                } catch (err) {
+                    console.log(`GET /vehicles/${request.path.id} error: `, err);
+                    return Boom.internal();
+                }
+            }
+        }
     }
 }
 
