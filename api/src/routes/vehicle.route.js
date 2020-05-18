@@ -98,12 +98,74 @@ class VehicleRoute extends BaseRoute {
                     const { id } = request.params;
                     return await this._database.get({ id: id });
                 } catch (err) {
-                    console.log(`GET /vehicles/${request.path.id} error: `, err);
+                    console.log(`GET /vehicles/${request.params.id} error: `, err);
                     return Boom.internal();
                 }
             }
         }
     }
+
+    patch() {
+        return {
+            path: '/vehicles/{id}',
+            method: 'PATCH',
+            config: {
+                validate: {
+                    failAction,
+                    params: {
+                        id: Joi.number().required().min(0)
+                    },
+                    payload: {
+                        plate: Joi.string().min(3).max(10),
+                        seats_total: Joi.number()
+                    }
+                }
+            },
+            handler: async (request) => {
+                try {
+                    const { id } = request.params;
+                    const { 
+                        plate, 
+                        seats_total 
+                    } = request.payload;
+                    
+                    let query = {};
+                    if (plate) query = { ...query, plate };
+                    if (seats_total) query = { ...query, seats_total };
+
+                    return await this._database.update(query, { id });
+                } catch (err) {
+                    console.log(`PATCH /vehicles/${request.params.id} error: `, err);
+                    return Boom.internal();
+                }
+            }
+        };
+    }
+
+    delete() {
+        return {
+            path: '/vehicles/{id}',
+            method: 'DELETE',
+            config: {
+                validate: {
+                    failAction,
+                    params: {
+                        id: Joi.number().required().min(0)
+                    }
+                }
+            },
+            handler: async (request) => {
+                try {
+                    const { id } = request.params;
+                    return await this._database.delete({ id: id });
+                } catch (err) {
+                    console.log(`PATCH /vehicles/${request.params.id} error: `, err);
+                    return Boom.internal();
+                }
+            }
+        };
+    }
+
 }
 
 module.exports = VehicleRoute;

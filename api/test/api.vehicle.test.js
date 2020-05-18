@@ -68,4 +68,51 @@ describe("vehicles rest api test suite", function() {
         }
     });
     
+    it("should update one vehicle", async () => {
+        // our example
+        const { payload } = await api.inject({
+            method: 'GET',
+            url: `/vehicles?plate=${MOCK_VEHICLE_API_A.plate}`
+        });
+        const [result] = JSON.parse(payload);
+        
+        if (result) { // if we have 1 example at least
+            const { payload, statusCode } = await api.inject({
+                method: 'PATCH',
+                url: `/vehicles/${result.id}`,
+                payload: {
+                    plate: MOCK_VEHICLE_API_B.plate
+                }
+            });
+            const [resultPatch] = JSON.parse(payload);
+            if (statusCode !== 200) console.log(statusCode, resultPatch);
+            assert.deepEqual(statusCode, 200);
+            assert.deepEqual(resultPatch, 1);
+        } else {
+            throw new Error("there nothing in database to test");
+        }
+    });
+
+    it("should remove one vehicle", async () => {
+        // our example
+        const { payload } = await api.inject({
+            method: 'GET',
+            url: `/vehicles?plate=${MOCK_VEHICLE_API_B.plate}`
+        });
+        const [result] = JSON.parse(payload);
+
+        if (result) { // if we have 1 example at least
+            const { payload, statusCode } = await api.inject({
+                method: 'DELETE',
+                url: `/vehicles/${result.id}`
+            });
+            const resultRemove = JSON.parse(payload);
+            if (statusCode !== 200) console.log(statusCode, resultPatch);
+            assert.deepEqual(statusCode, 200);
+            assert.deepEqual(resultRemove, 1);
+        } else {
+            throw new Error("there nothing in database to test");
+        }
+    });
+
 });
