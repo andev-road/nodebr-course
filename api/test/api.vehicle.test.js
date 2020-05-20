@@ -87,7 +87,7 @@ describe("vehicles rest api test suite", function() {
             const [resultPatch] = JSON.parse(payload);
             if (statusCode !== 200) console.log(statusCode, resultPatch);
             assert.deepEqual(statusCode, 200);
-            assert.deepEqual(resultPatch, 1);
+            assert.ok(resultPatch >= 1);
         } else {
             throw new Error("there nothing in database to test");
         }
@@ -109,7 +109,7 @@ describe("vehicles rest api test suite", function() {
             const resultRemove = JSON.parse(payload);
             if (statusCode !== 200) console.log(statusCode, resultPatch);
             assert.deepEqual(statusCode, 200);
-            assert.deepEqual(resultRemove, 1);
+            assert.ok(resultRemove >= 1);
         } else {
             throw new Error("there nothing in database to test");
         }

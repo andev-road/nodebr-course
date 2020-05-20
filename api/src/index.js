@@ -1,3 +1,16 @@
+// our environment
+const { config } = require('dotenv');
+const { join } = require('path');
+const { ok } = require('assert');
+const env = process.env.NODE_ENV || "dev";
+ok(env == "prod" || env === "dev", "Env is incorrect");
+const configPath = join(__dirname, './../config', `.env.${env}`);
+console.log(configPath);
+config({
+    path: configPath
+});
+
+// our api library
 const hapi = require('hapi');
 
 // our database
@@ -6,7 +19,7 @@ const VehicleSchema = require('./db/schemas/vehicle.schema');
 
 // our hapi server config
 const app = new hapi.Server({
-    port: 8084
+    port: process.env.PORT
 });
 
 // our api routes
