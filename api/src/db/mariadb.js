@@ -2,14 +2,14 @@
 const Sequelize = require('sequelize');
 
 // connection info
-const host = "localhost";
-const user = "root";
-const pass = "123456";
-const dbName = "tracker";
+const host = process.env.MARIADB_HOST;
+const user = process.env.MARIADB_USER;
+const pass = process.env.MARIADB_PASS;
+const dbName = process.env.MARIADB_DATABASE;
 const config = {
     host: host,
     dialect: 'mariadb',
-    dialectOptions: {connectTimeout: 10000}, 
+    dialectOptions: {connectTimeout: process.env.MARIADB_TIMEOUT}, 
     quoteIdentifiers: false,
     logging: false
 };
